@@ -4,7 +4,7 @@ Windows 10 IoTCore sensor library for various I2C sensors.
 Implemented sensors:
  - Rohm BH1750FVI ambient light sensor
  - Bosch BMP180 barometric sensor
- - Donji DSTH01 relative humidity sensor
+ - Dorji DSTH01 relative humidity sensor
  - Honeywell HMC5883L digital 3-axis compass/magnetometer
  
 These sensors show few of the different ways I2C based devices are made:
@@ -17,3 +17,9 @@ The DSTH01 has a Chip Select pin which must be pulled down to power up the devic
 
 The HMC5583L provides a separate output to inform data availability. This eliminates the need for polling status registers on timers at a cost of an IO-line. It is most useful for a continous measurement mode, where the sensor notifies the host whenever a new measurement has been stored to the data registers.
 
+Datasheets:
+
+ - http://rohmfs.rohm.com/en/products/databook/datasheet/ic/sensor/light/bh1750fvi-e.pdf
+ - http://www51.honeywell.com/aero/common/documents/myaerospacecatalog-documents/Defense_Brochures-documents/HMC5883L_3-Axis_Digital_Compass_IC.pdf
+ - http://www.dorji.com/docs/data/DSTH01.pdf
+ - https://ae-bst.resource.bosch.com/media/downloads/pressure/bmp180/Flyer_BMP180_08_2013_web.pdf
