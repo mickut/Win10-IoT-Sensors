@@ -46,11 +46,10 @@ namespace SensorReaderSample
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _AmbientLuxChanged(object sender, double e)
+        private async void _AmbientLuxChanged(object sender, double e)
         {
             Debug.WriteLine("New measurement: " + e);
-
-            Lux.Text = $"{e:f2} lux";
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => Lux.Text = $"{e:f2} lux");
 
             if (e < 3000 && _luxMeter.MeasurementTime < 250) // Increase accuracy
             {
@@ -73,11 +72,16 @@ namespace SensorReaderSample
         }
 
         #endregion
-        
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            InitializeAsync();
+        }
+
+        private async void InitializeAsync()
+        {
             try
             {
                 _tempHum = new Dsth01(27); // GPIO27 connected to Dsth01 CS-pin
@@ -92,11 +96,13 @@ namespace SensorReaderSample
             }
 
             await Task.WhenAll(_magnetometer.ConnectAsync(), _barometer.ConnectAsync(), _tempHum.ConnectAsync(), _luxMeter.ConnectAsync());
-            
+
             // Set magnetometer gain an averaging
             if (_magnetometer.Connected)
             {
-                Magnetometer.Visibility = Visibility.Visible;
+                await
+                    Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
+                        () => { Magnetometer.Visibility = Visibility.Visible; });
                 _magnetometer.WriteRegister(Hmc5883L.Register.ConfA, (byte) Hmc5883L.ConfigA.Average8);
                 _magnetometer.WriteRegister(Hmc5883L.Register.ConfB, (byte) Hmc5883L.ConfigB.Gain1370);
             }
@@ -104,18 +110,23 @@ namespace SensorReaderSample
             // The BH175FVI sensor supports a continuous measurement mode
             if (_luxMeter.Connected)
             {
-                Ambient.Visibility = Visibility.Visible;
+                await
+                    Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
+                        () => { Ambient.Visibility = Visibility.Visible; });
                 _luxMeter.Mode = Bh1750Fvi.Resolution.VeryHigh;
                 _luxMeter.ReadingChanged += _AmbientLuxChanged;
                 _luxMeter.ContinuousPeriod = 2000; // every 2 seconds
                 _luxMeter.ContinuousMeasurement = true;
             }
 
-            if (_tempHum.Connected)
-                Humidity.Visibility = Visibility.Visible;
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                if (_tempHum.Connected)
+                    Humidity.Visibility = Visibility.Visible;
 
-            if (_barometer.Connected)
-                Barometer.Visibility = Visibility.Visible;
+                if (_barometer.Connected)
+                    Barometer.Visibility = Visibility.Visible;
+            });
 
             // The rest of the sensors are polled periodically
             _timer = new DispatcherTimer {Interval = TimeSpan.FromMilliseconds(1000)};
@@ -136,9 +147,12 @@ namespace SensorReaderSample
                 {
                     var m = await _magnetometer.GetReadingAsync();
                     Debug.WriteLine("Magnetometer: " + m);
-                    MagX.Text = $"{m.X:f2} uT";
-                    MagY.Text = $"{m.Y:f2} uT";
-                    MagZ.Text = $"{m.Z:f2} uT";
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    {
+                        MagX.Text = $"{m.X:f2} uT";
+                        MagY.Text = $"{m.Y:f2} uT";
+                        MagZ.Text = $"{m.Z:f2} uT";
+                    });
                 }
 
                 if (_barometer.Connected)
@@ -147,8 +161,11 @@ namespace SensorReaderSample
                     _barometer.OverSampling = 3;
                     var b = await _barometer.GetReadingAsync();
                     Debug.WriteLine("Barometer: " + b);
-                    BarPressure.Text = $"{b.Pressure:f2} hPa";
-                    BarTemp.Text = $"{b.Temperature:f2}°C";
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    {
+                        BarPressure.Text = $"{b.Pressure:f2} hPa";
+                        BarTemp.Text = $"{b.Temperature:f2}°C";
+                    });
                 }
 
                 if (_tempHum.Connected)
@@ -159,9 +176,13 @@ namespace SensorReaderSample
                     var th = await _tempHum.GetReadingAsync();
                     Debug.WriteLine("TempHum: " + th);
                     Debug.WriteLine("Dewpoint: " + th.DewPoint);
-                    RhTemp.Text = $"{th.Temperature:f2}°C";
-                    RhHum.Text = $"{th.Humidity:f0}%";
-                    RhDew.Text = $"{th.DewPoint:f2}°C";
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    {
+                        RhTemp.Text = $"{th.Temperature:f2}°C";
+                        RhHum.Text = $"{th.Humidity:f0}%";
+                        RhDew.Text = $"{th.DewPoint:f2}°C";
+                    });
+
                     if (th.Humidity > 80)
                         _tempHum.Heater = true;
                     else if (th.Humidity < 70)

@@ -67,14 +67,19 @@ namespace I2CSensors.Sensors
                 if (gpc == null)
                     return false;
                 _chipSelect = gpc.OpenPin(_csPinNumber);
-                _chipSelect.Write(GpioPinValue.High);
+                _chipSelect.Write(GpioPinValue.Low);
                 _chipSelect.SetDriveMode(GpioPinDriveMode.Output);
-
+                await Task.Delay(15);
+                var sbuf = new byte[1];
+                _device.WriteRead(new [] {(byte)Registers.Status},sbuf);
+                _chipSelect.Write(GpioPinValue.High);
                 Connected = true;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("Initialization failed: " + ex);
+                _chipSelect?.Dispose();
+                _chipSelect = null;
             }
             return Connected;
         }

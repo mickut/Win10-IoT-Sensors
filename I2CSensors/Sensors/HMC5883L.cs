@@ -61,7 +61,7 @@ namespace I2CSensors.Sensors
             DO1 = 1 << 3,
             DO0 = 1 << 2,
             MS1 = 1 << 1,
-            MS0 = 1 << 1,
+            MS0 = 1 << 0,
             Average1 = 0,
             Average2 = MA0,
             Average4 = MA1,
@@ -174,12 +174,13 @@ namespace I2CSensors.Sensors
             _device.Write(new[] {(byte) Register.ConfA, (byte)(ConfigA.DataRate_15Hz|ConfigA.Average8|ConfigA.MS0)});
             _device.Write(new[] {(byte) Register.ConfB, (byte) (selftestGains[gain])});
             _device.Write(new[] {(byte)Register.Mode, (byte)0x00});
-
+            await Task.Delay(6);
             try
             {
-                var rbuf = new byte[6];
                 while (true)
                 {
+                    var rbuf = new byte[6];
+                    _device.WriteRead(new[] { (byte)Register.DataXMsb }, rbuf); // Read and discard one sample
                     // wait for measurement to be available
                     await Task.Delay(80);
                     _device.WriteRead(new[] {(byte) Register.DataXMsb}, rbuf);

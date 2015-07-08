@@ -21,62 +21,62 @@
     </Page.Resources>
     
     <VariableSizedWrapGrid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20,20">
-        <RelativePanel x:Name="Humidity" Visibility="Collapsed" Margin="4,4">
+        <RelativePanel x:Name="Humidity" Margin="4,4">
             <TextBlock Text="Relative Humidity" x:Name="RhTitle" Style="{StaticResource Title}" />
             <TextBlock Text="Temperature:" x:Name="RhTempLabel" RelativePanel.Below="RhTitle"/>
-            <TextBlock Text="" x:Name="RhTemp" 
+            <TextBlock Text="N/A" x:Name="RhTemp" 
                        RelativePanel.RightOf="RhTempLabel" RelativePanel.AlignTopWith="RhTempLabel" RelativePanel.AlignRightWith="RhTitle"
                        TextAlignment="Right"
                        />
             <TextBlock Text="Humidity:" x:Name="RhHumLabel" RelativePanel.Below="RhTempLabel"/>
-            <TextBlock Text="" x:Name="RhHum" 
+            <TextBlock Text="N/A" x:Name="RhHum" 
                        RelativePanel.RightOf="RhHumLabel" RelativePanel.Below="RhTemp" RelativePanel.AlignRightWith="RhTemp"
                        TextAlignment="Right"
                        />
             <TextBlock Text="Dewpoint:" x:Name="RhDewLabel" RelativePanel.Below="RhHumLabel" />
-            <TextBlock Text="" x:Name="RhDew" 
+            <TextBlock Text="N/A" x:Name="RhDew" 
                        RelativePanel.RightOf="RhDewLabel" RelativePanel.Below="RhHum" RelativePanel.AlignRightWith="RhTemp" 
                        TextAlignment="Right"
                        />
         </RelativePanel>
 
-        <RelativePanel x:Name="Magnetometer" Visibility="Collapsed" Margin="4,4">
-            <TextBlock Text="Relative Humidity" x:Name="MagTitle" Style="{StaticResource Title}"/>
+        <RelativePanel x:Name="Magnetometer"  Margin="4,4">
+            <TextBlock Text="Magnetic field" x:Name="MagTitle" Style="{StaticResource Title}"/>
             <TextBlock Text="X:" x:Name="MagXLabel" RelativePanel.Below="MagTitle"/>
-            <TextBlock Text="" x:Name="MagX" 
+            <TextBlock Text="N/A" x:Name="MagX" 
                        RelativePanel.RightOf="MagXLabel" RelativePanel.AlignTopWith="MagXLabel" RelativePanel.AlignRightWith="MagTitle"
                        TextAlignment="Right"
                        />
             <TextBlock Text="Y:" x:Name="MagYLabel" RelativePanel.Below="MagXLabel"/>
-            <TextBlock Text="" x:Name="MagY" 
-                       RelativePanel.RightOf="MagYLabel" RelativePanel.Below="Magx"  RelativePanel.AlignRightWith="MagX"
+            <TextBlock Text="N/A" x:Name="MagY" 
+                       RelativePanel.RightOf="MagYLabel" RelativePanel.Below="MagX"  RelativePanel.AlignRightWith="MagX"
                        TextAlignment="Right"
                        />
             <TextBlock Text="Z:" x:Name="MagZLabel" RelativePanel.Below="MagYLabel" />
-            <TextBlock Text="" x:Name="MagZ" 
+            <TextBlock Text="N/A" x:Name="MagZ" 
                        RelativePanel.RightOf="MagZLabel"  RelativePanel.Below="MagY"  RelativePanel.AlignRightWith="MagX"
                        TextAlignment="Right"
                        />
         </RelativePanel>
 
-        <RelativePanel x:Name="Barometer" Visibility="Collapsed" Margin="4,4">
-            <TextBlock Text="Relative Humidity" x:Name="BarTitle" Style="{StaticResource Title}"/>
+        <RelativePanel x:Name="Barometer"  Margin="4,4">
+            <TextBlock Text="Barometric Pressure" x:Name="BarTitle" Style="{StaticResource Title}"/>
             <TextBlock Text="Pressure:" x:Name="BarPressureLabel" RelativePanel.Below="BarTitle"/>
-            <TextBlock Text="" 
+            <TextBlock Text="N/A" 
                        x:Name="BarPressure" RelativePanel.RightOf="BarPressureLabel" RelativePanel.AlignTopWith="BarPressureLabel" RelativePanel.AlignRightWith="BarTitle"
                        TextAlignment="Right"
                        />
             <TextBlock Text="Temperature:" x:Name="BarTempLabel" RelativePanel.Below="BarPressureLabel"/>
-            <TextBlock Text="" x:Name="BarTemp" 
+            <TextBlock Text="N/A" x:Name="BarTemp" 
                        RelativePanel.RightOf="BarTempLabel" RelativePanel.Below="BarPressure"  RelativePanel.AlignRightWith="BarPressure"
                        TextAlignment="Right"
                        />
         </RelativePanel>
 
-        <RelativePanel x:Name="Ambient" Visibility="Collapsed" Margin="4,4">
+        <RelativePanel x:Name="Ambient"  Margin="4,4">
             <TextBlock Text="Ambient illumination" x:Name="LuxTitle" Style="{StaticResource Title}"/>
             <TextBlock Text="Lux:" x:Name="LuxLabel" RelativePanel.Below="LuxTitle"/>
-            <TextBlock Text="" x:Name="Lux" 
+            <TextBlock Text="N/A" x:Name="Lux" 
                        RelativePanel.RightOf="LuxLabel" RelativePanel.AlignTopWith="LuxLabel" RelativePanel.AlignRightWith="LuxTitle"
                        TextAlignment="Right"/>
         </RelativePanel>
