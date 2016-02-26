@@ -9,7 +9,7 @@ Implemented sensors:
  
 These sensors show few of the different ways I2C based devices are made:
 
-The BH1750FVI is based on 8-bit operation codes and you must use explicit write and read operations. It also has an ADDR pin that can be pulled low or high to change between two distint slave addresses. This enable having two separate sensors without reserving any of the host IO lines.
+The BH1750FVI is based on 8-bit operation codes and you must use explicit write and read operations. It also has an ADDR pin that can be pulled low or high to change between two distinct slave addresses. This enable having two separate sensors without reserving any of the host IO lines.
 
 The BMP180, DSTH01 and HMC5583L are based on register access, with specific bits of registers to start an operation. The register based devices typically interpret the first written byte as an address pointer. Any subsequent bytes written are placed to current address and the address pointer gets incremented. For reading the operation is similar, and the address pointer can be pointed to a new place with a single byte write.
 
